@@ -1,4 +1,4 @@
-#tik tak tok(player VS AI(min_max Algorithm))
+#(player VS AI(min_max Algorithm))
 
 #Equip the board and player
 import random
