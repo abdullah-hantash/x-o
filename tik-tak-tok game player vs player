@@ -1,0 +1,103 @@
+#player vs player
+board = [[' ' for _ in range(3)] for _ in range(3)]
+current_player = 'X'
+available_positions = list(range(1, 10)) #list for avaliable position (1,9)  
+
+while True:
+    # print Board of game 
+    print("Board:")
+    for i in range(3):
+        for j in range(3):
+            print(board[i][j], end='')
+            if j < 2:
+                print(' | ', end='')
+        print()
+        if i < 2:
+            print("-" * 9)
+        else:
+            print()
+
+    #print available position with number
+    print("Available positions:")
+    for pos in available_positions:
+        print(pos, end=" ")
+    print()
+
+    # Taking  input from the player
+    while True:
+        try:
+            position = int(input(f"Player {current_player}, choose an available position: "))
+            if position not in available_positions:
+                raise ValueError("This position is not available or invalid! Choose from available positions.")
+            break
+        except ValueError as e:
+            print(e)
+            continue
+
+    available_positions.remove(position)  # Remove the selected position from the available positions
+
+    # Convert number to row and column
+    row = (position - 1) // 3
+    col = (position - 1) % 3
+
+    # Verify that the position is empty
+    if board[row][col] == ' ':
+        
+        board[row][col] = current_player
+    else:
+        print("This cell is already taken! Try again.")
+      
+        continue
+
+    # Check if the player has won
+    winner = False
+    for i in range(3):
+        if board[i][0] == board[i][1] == board[i][2] == current_player:
+            winner = True
+        if board[0][i] == board[1][i] == board[2][i] == current_player:
+            winner = True
+    if board[0][0] == board[1][1] == board[2][2] == current_player:
+        winner = True
+    if board[0][2] == board[1][1] == board[2][0] == current_player:
+        winner = True
+
+    if winner:
+        #Print the board after winning
+        print("Board:")
+        for i in range(3):
+            for j in range(3):
+                print(board[i][j], end='')
+                if j < 2:
+                    print(' | ', end='')
+            print()
+            if i < 2:
+                print("-" * 9)
+            else:
+                print()
+        print(f"Player {current_player} wins!")
+        break
+
+    # Check if the board is full
+    full = True
+    for row in board:
+        for cell in row:
+            if cell == ' ':
+                full = False
+    if full:
+        # Print the doard after drawing
+        print("Board:")
+        for i in range(3):
+            for j in range(3):
+                print(board[i][j], end='')
+                if j < 2:
+                    print(' | ', end='')
+            print()
+            if i < 2:
+                print("-" * 9)
+            else:
+                print()
+        print("It's a tie!")
+        break
+
+
+    current_player = 'O' if current_player=='X'else'X'
